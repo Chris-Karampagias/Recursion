@@ -1,39 +1,23 @@
-function mergeSort(array) {
-  if (array.length < 2) {
-    return array;
-  } else {
-    let leftHalf = array.slice(0, array.length / 2);
-    let rightHalf = array.slice(array.length / 2);
-    let left = mergeSort(leftHalf);
-    let right = mergeSort(rightHalf);
-    let tmp = [];
-    let min;
-    while (left.length > 1 || right.length > 1) {
-      if (left[0] < right[0]) {
-        min = left[0];
-        tmp.push(min);
-        left.splice(0, 1);
-      } else {
-        min = right[0];
-        tmp.push(min);
-        right.splice(0, 1);
-      }
-    }
-    if (left.length == 0) {
-      for (let i = 0; i <= right.length - 1; i++) {
-        tmp.push(right[i]);
-      }
-    } else if (right.length == 0) {
-      for (let i = 0; i <= left.length - 1; i++) {
-        tmp.push(left[i]);
-      }
-    } else if (left[0] < right[0]) {
-      tmp.push(left[0]);
-      tmp.push(right[0]);
+function merge(arr1, arr2) {
+  const sortedArr = [];
+  while (arr1.length && arr2.length) {
+    if (arr1[0] < arr2[0]) {
+      sortedArr.push(arr1.shift());
     } else {
-      tmp.push(right[0]);
-      tmp.push(left[0]);
+      sortedArr.push(arr2.shift());
     }
-    return tmp;
   }
+  return [...sortedArr, ...arr1, ...arr2];
+}
+
+function mergeSort(arr) {
+  if (arr.length == 1) {
+    return arr;
+  }
+  let mid = parseInt(arr.length / 2);
+  let leftArr = arr.splice(0, mid);
+  let rightArr = arr.splice(mid);
+  let arr1 = mergeSort(leftArr);
+  let arr2 = mergeSort(rightArr);
+  return merge(arr1, arr2);
 }
